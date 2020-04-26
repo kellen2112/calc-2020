@@ -72,7 +72,7 @@ function handleDecimal() {
 function handleNumber(num) {
     //updating currVal, CurrOp and segments
     if(currVal){
-        addToScreen(num);
+        setScreen(num);
     } else if(currOp){
         segments.push(currOp);
         currOp = '';
@@ -81,9 +81,9 @@ function handleNumber(num) {
     // updating screen
     if(!screen.innerText) {
         setScreen(num);
-    } else {
+    }else {
         addToScreen(num);
-    }
+    } 
     //updating flags
     lastOp = false;
 }
