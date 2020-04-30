@@ -6,25 +6,6 @@ var currVal = '';
 var currOp = '';
 var segments = [];
 
-// for (var i = 0; i < buttons.length; i++) {
-//     if (buttons[i].classList.contains('num')) {
-//         buttons[i].addEventListener('click', function (event){
-//             handleNumber(event.target.innerText);
-//             console.log('number:', event.target.innerText);
-//         });
-//     } else if (buttons[i].classList.contains('op')) {
-//         buttons[i].addEventListener('click', function (event) {
-//             handleOperator(event.target.innerText);
-//             console.log('op:', event.target.innerText);
-//         });
-//     } else if (buttons[i].id === 'dec') {
-//         buttons[i].addEventListener('click', function (event) {
-//             handleDecimal();
-//             console.log('decimal');
-//         });
-//     }
-// }
-
 document.getElementById('calculator')
 .addEventListener('click', function(event) {
     if (!event.target.matches('.btn')) {
@@ -44,15 +25,6 @@ document.getElementById('calculator')
     }
 });
 
-
-// document.getElementById('calculator').addEventListener('click', function(event) {
-//     if(!event.target.matches('button')) {
-//         return;
-//     } else if (event.target.matches('.number')) {
-//         handleNumber(event.target.id);
-//     } else if (event.target.matches('button'))
-// })
-
 function handleClear() {
     setScreen('');
     lastIsOp = false;
@@ -71,19 +43,14 @@ function handleDecimal() {
 
 function handleNumber(num) {
     //updating currVal, CurrOp and segments
-    if(currVal){
-        setScreen(num);
-    } else if(currOp){
+    if(currOp){
         segments.push(currOp);
         currOp = '';
     }
+    addToScreen(num);
     currVal += num;
-    // updating screen
-    if(!screen.innerText) {
-        setScreen(num);
-    }else {
-        addToScreen(num);
-    } 
+    
+
     //updating flags
     lastOp = false;
 }
@@ -127,11 +94,14 @@ function handleEquals() {
     }
 
     for( var i = 0; i < segments.length; i+=2){
+        if(segments[i] === '-') {
+            segments[i] = '0';
+        }
         if(segments[i].startsWith('-')) {
             segments[i] = '(' + segments[i] + ')';
         }
     }
-    var answer = eval(segments.join(''));
+    var answer = eval(segments.join('')).toFixed(3);
 
     //update state values
     currVal = answer.toString();
